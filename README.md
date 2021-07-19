@@ -20,7 +20,8 @@ The code in this repo can be used to scrape lyrics from genius, embed the lyrics
 3. In `scripts.generate_embeddings.main()`, modify the file locations the embeddings are loaded from then run the script. 
     - This step is MUCH faster / may only be possible with a GPU or a computer with a ton of RAM. I would not recommend the latter as it'll still be very slow on a CPU.
     - I have included code to submit jobs to Google Cloud's AI Platform. I'd highly recommend using it for this as its fairly cheap and not too difficult. 
-5. In `scripts.make_plot.main()`, modify the file locations to load the sonng data then run the script to generate a plot. 
+4. Download an image for each artist in your query. Add the locations to the `scripts.make_plot.main()` function.
+5. Run `scripts.make_plot.main()` to generate a plot. 
 
 ### Running on GCP
 
