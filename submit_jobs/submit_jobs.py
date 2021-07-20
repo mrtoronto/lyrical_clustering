@@ -2,6 +2,7 @@ import datetime
 import os
 import pickle
 import logging
+from config.local_settings import project_id
 from googleapiclient import discovery
 from googleapiclient.errors import HttpError
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -10,10 +11,10 @@ from google.auth.transport.requests import Request
 SCOPES = "https://www.googleapis.com/auth/cloud-platform"
 
 def get_creds():
+	"""
+	Authenticate with local token or open refresh process in browser
+	"""
 	credentials = None
-	# The file token.pickle stores the user's access and refresh tokens, and is
-	# created automatically when the authorization flow completes for the first
-	# time.
 	if os.path.exists('token.pickle'):
 		with open('token.pickle', 'rb') as token:
 			credentials = pickle.load(token)
@@ -27,7 +28,6 @@ def get_creds():
 		# Save the credentials for the next run
 		with open('token.pickle', 'wb') as token:
 			pickle.dump(credentials, token)
-
 	return credentials
 
 def submit_job(script_name,
@@ -37,10 +37,11 @@ def submit_job(script_name,
 			extra_args=None, 
 			master_type=None, 
 			accelerator_type=None):
+	"""
+	Submit a job to the AI platform
+	"""
 
 	creds = get_creds()
-
-	project_id = 'podcast-semantic-search'
 	project_id = 'projects/{}'.format(project_id)
 	
 	job_name = task_name+"_" + datetime.datetime.now().strftime("%y%m%d_%H%M%S")
@@ -86,10 +87,4 @@ def gen_embeddings_Task(event, context,):
 						script_name="generate_embeddings",
 						accelerator_type='NVIDIA-TESLA-K80', 
 						master_type='n1-standard-4', 
-						scale_tier='CUSTOM')
-
-def scrape_lyrics_Task(event, context,):
-	return submit_job(task_name="scrape_lyrics",
-						script_name="scrape_genius",
-						master_type='e2-standard-4', 
 						scale_tier='CUSTOM')

@@ -92,7 +92,7 @@ def make_plot(all_songs):
 	plt.axis('off')
 
 	sns.despine()
-
+	
 	artists_images = [('BROCKHAMPTON', 'brock.png'), 
 			  ('Frank Ocean', 'frank.png'), 
 			  ('The Front Bottoms', 'frontbottoms.png'), 
